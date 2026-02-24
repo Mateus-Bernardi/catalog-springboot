@@ -1,23 +1,35 @@
 package com.mateus.catalog.entities;
 
-import java.util.Objects;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+import java.util.Objects;
+import java.util.UUID;
+
+@Entity
 public class Category {
 
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     private String name;
 
-    public Category(long id, String name) {
+    public Category() {
+    }
+
+    public Category(UUID id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
