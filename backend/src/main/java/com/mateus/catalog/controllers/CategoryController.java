@@ -1,6 +1,6 @@
 package com.mateus.catalog.controllers;
 
-import com.mateus.catalog.entities.Category;
+import com.mateus.catalog.dto.CategoryDTO;
 import com.mateus.catalog.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,8 @@ public class CategoryController {
     public CategoryService service;
 
     @GetMapping
-    public ResponseEntity<List<Category>> finAll(){
-        List<Category> list = service.findAll();
+    public ResponseEntity<List<CategoryDTO>> findAll() {
+        List<CategoryDTO> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 }
