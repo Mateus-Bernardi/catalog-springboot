@@ -2,10 +2,13 @@ package com.mateus.catalog.services;
 
 import com.mateus.catalog.dto.CategoryDTO;
 import com.mateus.catalog.entities.Category;
+import com.mateus.catalog.exceptions.DatabaseException;
 import com.mateus.catalog.exceptions.ResourceNotFoundException;
 import com.mateus.catalog.repositories.CategoryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,4 +54,16 @@ public class CategoryService {
             throw new ResourceNotFoundException("Id not found." + id);
         }
     }
+
+    public void delete(Long id) {
+        if (!repository.existsById(id)) {
+            throw new ResourceNotFoundException("Id not found: " + id);
+        }
+        try {
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Integrity violation.");
+        }
+    }
+
 }
