@@ -8,7 +8,7 @@ public class CategoryDTO {
 
     private String name;
 
-    public CategoryDTO(){
+    public CategoryDTO() {
     }
 
     public CategoryDTO(Long id, String name) {
@@ -16,7 +16,7 @@ public class CategoryDTO {
         this.name = name;
     }
 
-    public CategoryDTO(Category entity){
+    public CategoryDTO(Category entity) {
         this.id = entity.getId();
         this.name = entity.getName();
     }
