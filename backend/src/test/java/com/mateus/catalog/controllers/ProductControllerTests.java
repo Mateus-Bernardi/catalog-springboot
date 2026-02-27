@@ -80,7 +80,7 @@ public class ProductControllerTests {
     }
 
     @Test
-    public void findByIdShouldReturnNotFoundWhenIdDoesNotExists() throws Exception {
+    public void findByIdShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
         ResultActions result = mockMvc.perform(get("/products/{id}", nonExistingId).accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isNotFound());
     }
@@ -97,7 +97,7 @@ public class ProductControllerTests {
     }
 
     @Test
-    public void updateShouldReturnNotFoundWhenIdDoesNotExists() throws Exception {
+    public void updateShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
         String jsonBody = objectMapper.writeValueAsString(productDTO);
         ResultActions result = mockMvc.perform(put("/products/{id}", nonExistingId).content(jsonBody)
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
@@ -127,7 +127,7 @@ public class ProductControllerTests {
     }
 
     @Test
-    public void deleteShouldReturnNotFoundWhenIdDoesNotExists() throws Exception {
+    public void deleteShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
         ResultActions result = mockMvc.perform(delete("/products/{id}", nonExistingId)
                 .accept(MediaType.APPLICATION_JSON));
 
