@@ -1,16 +1,24 @@
 package com.mateus.catalog.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.util.Objects;
 
+@Entity
 public class Role {
 
-    private long id;
-    private long authority;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String authority;
 
     public Role() {
     }
 
-    public Role(long id, long authority) {
+    public Role(long id, String authority) {
         this.id = id;
         this.authority = authority;
     }
@@ -23,11 +31,11 @@ public class Role {
         this.id = id;
     }
 
-    public long getAuthority() {
+    public String getAuthority() {
         return authority;
     }
 
-    public void setAuthority(long authority) {
+    public void setAuthority(String authority) {
         this.authority = authority;
     }
 
