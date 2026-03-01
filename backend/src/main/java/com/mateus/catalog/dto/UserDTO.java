@@ -1,6 +1,8 @@
 package com.mateus.catalog.dto;
 
 import com.mateus.catalog.entities.User;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,8 +10,10 @@ import java.util.Set;
 public class UserDTO {
 
     private long id;
+    @NotBlank(message = "Campo obrigatório.")
     private String firstName;
     private String lastName;
+    @Email
     private String email;
 
     Set<RoleDTO> roles = new HashSet<>();
