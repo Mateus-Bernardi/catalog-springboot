@@ -1,9 +1,6 @@
 package com.mateus.catalog.services;
 
-import com.mateus.catalog.dto.CategoryDTO;
-import com.mateus.catalog.dto.RoleDTO;
-import com.mateus.catalog.dto.UserDTO;
-import com.mateus.catalog.dto.UserInsertDTO;
+import com.mateus.catalog.dto.*;
 import com.mateus.catalog.entities.Category;
 import com.mateus.catalog.entities.Role;
 import com.mateus.catalog.entities.User;
@@ -58,7 +55,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO update(Long id, UserDTO dto) {
+    public UserDTO update(Long id, UserUpdateDTO dto) {
         try {
             User entity = repository.getReferenceById(id);
             copyDtoToEntity(dto, entity);

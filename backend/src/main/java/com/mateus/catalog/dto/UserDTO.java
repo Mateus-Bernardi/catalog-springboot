@@ -34,7 +34,6 @@ public class UserDTO {
         this.lastName = entity.getLastName();
         this.email = entity.getEmail();
         entity.getRoles().forEach(role -> this.roles.add(new RoleDTO(role)));
-
     }
 
     public long getId() {
