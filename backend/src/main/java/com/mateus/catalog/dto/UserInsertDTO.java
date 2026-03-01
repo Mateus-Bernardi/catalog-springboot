@@ -1,5 +1,8 @@
 package com.mateus.catalog.dto;
 
+import com.mateus.catalog.services.validation.UserInsertValid;
+
+@UserInsertValid
 public class UserInsertDTO extends UserDTO{
 
     private String password;
