@@ -12,6 +12,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable());
         http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+
+        // Adicione esta configuração para o console do H2
+        http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
+
         return http.build();
     }
+
 }
