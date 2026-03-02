@@ -1,9 +1,13 @@
 package com.mateus.catalog.config.customgrant;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import com.mateus.catalog.entities.User;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -44,9 +48,9 @@ public class CustomPasswordAuthenticationProvider implements AuthenticationProvi
 	private Set<String> authorizedScopes = new HashSet<>();
 
 	public CustomPasswordAuthenticationProvider(OAuth2AuthorizationService authorizationService,
-			OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator, 
+			OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
 			UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-		
+
 		Assert.notNull(authorizationService, "authorizationService cannot be null");
 		Assert.notNull(tokenGenerator, "TokenGenerator cannot be null");
 		Assert.notNull(userDetailsService, "UserDetailsService cannot be null");
@@ -56,42 +60,45 @@ public class CustomPasswordAuthenticationProvider implements AuthenticationProvi
 		this.userDetailsService = userDetailsService;
 		this.passwordEncoder = passwordEncoder;
 	}
-	
+
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		
+
 		CustomPasswordAuthenticationToken customPasswordAuthenticationToken = (CustomPasswordAuthenticationToken) authentication;
-		OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(customPasswordAuthenticationToken);
+		OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(
+				customPasswordAuthenticationToken);
 		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 		username = customPasswordAuthenticationToken.getUsername();
-		password = customPasswordAuthenticationToken.getPassword();	
-		
+		password = customPasswordAuthenticationToken.getPassword();
+
 		UserDetails user = null;
 		try {
 			user = userDetailsService.loadUserByUsername(username);
 		} catch (UsernameNotFoundException e) {
 			throw new OAuth2AuthenticationException("Invalid credentials");
 		}
-				
+
 		if (!passwordEncoder.matches(password, user.getPassword()) || !user.getUsername().equals(username)) {
 			throw new OAuth2AuthenticationException("Invalid credentials");
 		}
-		
+
 		authorizedScopes = user.getAuthorities().stream()
 				.map(scope -> scope.getAuthority())
 				.filter(scope -> registeredClient.getScopes().contains(scope))
 				.collect(Collectors.toSet());
-		
-		//-----------Create a new Security Context Holder Context----------
-		OAuth2ClientAuthenticationToken oAuth2ClientAuthenticationToken = (OAuth2ClientAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-		CustomUserAuthorities customPasswordUser = new CustomUserAuthorities(username, user.getAuthorities());
+
+		// -----------Create a new Security Context Holder Context----------
+		OAuth2ClientAuthenticationToken oAuth2ClientAuthenticationToken = (OAuth2ClientAuthenticationToken) SecurityContextHolder
+				.getContext().getAuthentication();
+		User userEntity = (User) user;
+		CustomUserAuthorities customPasswordUser = new CustomUserAuthorities(username, user.getAuthorities(),
+				userEntity.getFirstName(), userEntity.getLastName(), userEntity.getId());
 		oAuth2ClientAuthenticationToken.setDetails(customPasswordUser);
-		
+
 		var newcontext = SecurityContextHolder.createEmptyContext();
 		newcontext.setAuthentication(oAuth2ClientAuthenticationToken);
-		SecurityContextHolder.setContext(newcontext);		
-		
-		//-----------TOKEN BUILDERS----------
+
+		// -----------TOKEN BUILDERS----------
 		DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
 				.registeredClient(registeredClient)
 				.principal(clientPrincipal)
@@ -99,14 +106,14 @@ public class CustomPasswordAuthenticationProvider implements AuthenticationProvi
 				.authorizedScopes(authorizedScopes)
 				.authorizationGrantType(new AuthorizationGrantType("password"))
 				.authorizationGrant(customPasswordAuthenticationToken);
-		
+
 		OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
 				.attribute(Principal.class.getName(), clientPrincipal)
 				.principalName(clientPrincipal.getName())
 				.authorizationGrantType(new AuthorizationGrantType("password"))
 				.authorizedScopes(authorizedScopes);
-		
-		//-----------ACCESS TOKEN----------
+
+		// -----------ACCESS TOKEN----------
 		OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
 		OAuth2Token generatedAccessToken = this.tokenGenerator.generate(tokenContext);
 		if (generatedAccessToken == null) {
@@ -119,16 +126,23 @@ public class CustomPasswordAuthenticationProvider implements AuthenticationProvi
 				generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
 				generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
 		if (generatedAccessToken instanceof ClaimAccessor) {
-			authorizationBuilder.token(accessToken, (metadata) ->
-					metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, ((ClaimAccessor) generatedAccessToken).getClaims()));
+			authorizationBuilder.token(accessToken,
+					(metadata) -> metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME,
+							((ClaimAccessor) generatedAccessToken).getClaims()));
 		} else {
 			authorizationBuilder.accessToken(accessToken);
 		}
-				
+
 		OAuth2Authorization authorization = authorizationBuilder.build();
 		this.authorizationService.save(authorization);
-		
-		return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken);
+
+		// -----------ADDITIONAL PARAMETERS (JSON response body)----------
+		Map<String, Object> additionalParameters = new HashMap<>();
+		additionalParameters.put("userId", customPasswordUser.getUserId());
+		additionalParameters.put("userFirstName", customPasswordUser.getFirstName());
+
+		return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, null,
+				additionalParameters);
 	}
 
 	@Override
@@ -136,8 +150,9 @@ public class CustomPasswordAuthenticationProvider implements AuthenticationProvi
 		return CustomPasswordAuthenticationToken.class.isAssignableFrom(authentication);
 	}
 
-	private static OAuth2ClientAuthenticationToken getAuthenticatedClientElseThrowInvalidClient(Authentication authentication) {
-		
+	private static OAuth2ClientAuthenticationToken getAuthenticatedClientElseThrowInvalidClient(
+			Authentication authentication) {
+
 		OAuth2ClientAuthenticationToken clientPrincipal = null;
 		if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
 			clientPrincipal = (OAuth2ClientAuthenticationToken) authentication.getPrincipal();
@@ -146,5 +161,5 @@ public class CustomPasswordAuthenticationProvider implements AuthenticationProvi
 			return clientPrincipal;
 		}
 		throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
-	}	
+	}
 }

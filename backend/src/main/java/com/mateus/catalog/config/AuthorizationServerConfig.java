@@ -155,7 +155,10 @@ public class AuthorizationServerConfig {
 				// @formatter:off
 				context.getClaims()
 					.claim("authorities", authorities)
-					.claim("username", user.getUsername());
+					.claim("username", user.getUsername())
+					.claim("user_id", user.getUserId())
+					.claim("first_name", user.getFirstName())
+					.claim("last_name", user.getLastName());
 				// @formatter:on
 			}
 		};
