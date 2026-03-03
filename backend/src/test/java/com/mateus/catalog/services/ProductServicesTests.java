@@ -63,11 +63,16 @@ public class ProductServicesTests {
     @Test
     public void findAllPagedShouldReturnPage() {
         Pageable pageable = PageRequest.of(0, 10);
-        Mockito.when(repository.findAll(pageable)).thenReturn(page);
-        Page<ProductDTO> result = service.findAllPaged(pageable);
+        Mockito.when(repository.find(ArgumentMatchers.anyList(), ArgumentMatchers.anyString(),
+                ArgumentMatchers.eq(pageable)))
+                .thenReturn(page);
+        Mockito.when(repository.findProductsWithCategories(ArgumentMatchers.anyList()))
+                .thenReturn(List.of(product));
+        Page<ProductDTO> result = service.findAllPaged(0L, "", pageable);
         Assertions.assertNotNull(result);
         Assertions.assertFalse(result.isEmpty());
-        Mockito.verify(repository).findAll(pageable);
+        Mockito.verify(repository).find(ArgumentMatchers.anyList(), ArgumentMatchers.anyString(),
+                ArgumentMatchers.eq(pageable));
     }
 
     @Test
