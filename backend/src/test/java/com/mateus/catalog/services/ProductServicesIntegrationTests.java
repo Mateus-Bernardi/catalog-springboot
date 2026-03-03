@@ -37,9 +37,9 @@ public class ProductServicesIntegrationTests {
     @Autowired
     private ProductRepository repository;
 
-    private long existingId;
-    private long nonExistingId;
-    private long countTotalProducts;
+    private Long existingId;
+    private Long nonExistingId;
+    private Long countTotalProducts;
 
     @BeforeEach
     void setup() throws Exception {

@@ -12,7 +12,7 @@ import org.springframework.security.oauth2.server.authorization.authentication.O
 
 public class CustomPasswordAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {
 
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 	
 	private final String username;
 	private final String password;

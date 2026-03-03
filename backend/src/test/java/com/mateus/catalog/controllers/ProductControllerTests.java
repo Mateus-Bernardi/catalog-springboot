@@ -44,8 +44,8 @@ public class ProductControllerTests {
 
     private ProductDTO productDTO;
     private PageImpl<ProductDTO> page;
-    private long existingId;
-    private long nonExistingId;
+    private Long existingId;
+    private Long nonExistingId;
 
     @BeforeEach
     void setup() throws Exception {

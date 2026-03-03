@@ -32,7 +32,7 @@ public class UserUpdateValidator implements ConstraintValidator<UserUpdateValid,
 
          @SuppressWarnings("unchecked")
          var uriVars = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-         long userId = Long.parseLong(uriVars.get("id"));
+         Long userId = Long.parseLong(uriVars.get("id"));
 
          List<FieldMessage> list = new ArrayList<>();
 
