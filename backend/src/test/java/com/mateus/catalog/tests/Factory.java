@@ -7,9 +7,13 @@ import com.mateus.catalog.entities.Product;
 import java.time.Instant;
 
 public class Factory {
+
     public static Product createProduct() {
-        Product product = new Product(1L, "Phone", "Good Phone", 800.0, "https://img.com/img.png", Instant.parse("2020-10-20T03:00:00Z"));
-        product.getCategories().add(new Category(1L, "Electronics"));
+        Product product = new Product(1L, "Sofá Retrátil 3 Lugares",
+                "Sofá confortável em linho cinza, perfeito para sala de estar.",
+                2500.0, "https://picsum.photos/seed/sofa1/800/600",
+                Instant.parse("2024-02-20T14:30:00Z"));
+        product.getCategories().add(new Category(1L, "Móveis"));
         return product;
     }
 

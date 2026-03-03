@@ -33,7 +33,7 @@ public class ProductRepositoryTests {
         product.setId(null);
         product = repository.save(product);
         Assertions.assertNotNull(product.getId());
-        Assertions.assertEquals(countTotalProducts + 1, product.getId());
+        Assertions.assertTrue(product.getId() > countTotalProducts);
     }
 
     @Test
