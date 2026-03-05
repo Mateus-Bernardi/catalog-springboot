@@ -1,7 +1,6 @@
 package com.mateus.catalog.entities;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.ManyToAny;
 
 import java.time.Instant;
 import java.util.HashSet;
@@ -26,7 +25,7 @@ public class Product {
 
     @ManyToMany
     @JoinTable(name = "product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-    Set<Category> categories = new HashSet<>();
+    private Set<Category> categories = new HashSet<>();
 
     public Product() {
     }

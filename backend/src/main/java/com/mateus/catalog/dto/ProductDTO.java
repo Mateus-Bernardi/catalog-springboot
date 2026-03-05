@@ -2,10 +2,6 @@ package com.mateus.catalog.dto;
 
 import com.mateus.catalog.entities.Category;
 import com.mateus.catalog.entities.Product;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;

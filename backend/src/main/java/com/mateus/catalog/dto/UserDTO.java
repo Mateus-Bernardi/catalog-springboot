@@ -16,7 +16,7 @@ public class UserDTO {
     @Email
     private String email;
 
-    Set<RoleDTO> roles = new HashSet<>();
+    private Set<RoleDTO> roles = new HashSet<>();
 
     public UserDTO() {
     }

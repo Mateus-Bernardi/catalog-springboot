@@ -113,7 +113,7 @@ public class User implements UserDetails {
         if (o == null || getClass() != o.getClass())
             return false;
         User user = (User) o;
-        return id == user.id;
+        return Objects.equals(id, user.id);
     }
 
     @Override

@@ -14,7 +14,7 @@
 	<artifactId>catalog</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>catalog_springboot</name>
-	<description>Demo project for Spring Boot</description>
+	<description>API REST para gerenciamento de um catálogo de produtos com autenticação OAuth2/JWT</description>
 
 	<properties>
 		<java.version>21</java.version>
@@ -53,15 +53,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>

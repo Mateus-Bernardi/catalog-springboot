@@ -1,73 +1,79 @@
-# React + TypeScript + Vite
+# DS Catalog - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este é o projeto frontend do **DS Catalog**, uma aplicação moderna de catálogo de produtos desenvolvida com as mais recentes tecnologias do ecossistema React. A aplicação foca em fornecer uma interface de usuário de alta qualidade, responsiva e com excelente performance, além de um painel administrativo seguro e robusto.
 
-Currently, two official plugins are available:
+## Tecnologias e Stack Utilizado
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+O projeto foi construído sobre uma base sólida, priorizando tipagem estática, componentização e estilização utilitária.
 
-## React Compiler
+*   **[React 19](https://react.dev/)**: Biblioteca principal para a construção das interfaces, utilizando os mais recentes hooks e padrões de componentes funcionais.
+*   **[TypeScript](https://www.typescriptlang.org/)**: Superset do JavaScript que adiciona tipagem estática, garantindo maior segurança e previsibilidade do código.
+*   **[Vite](https://vitejs.dev/)**: Build tool de nova geração, garantindo um ambiente de desenvolvimento (HMR) extremamente rápido e builds otimizados.
+*   **[React Router v7](https://reactrouter.com/)**: Gerenciamento de rotas da aplicação (Client-side routing).
+*   **[Tailwind CSS v3](https://tailwindcss.com/)**: Framework CSS utilitário (Utility-first) para estilização rápida, responsiva e customizável.
+*   **[Axios](https://axios-http.com/)**: Cliente HTTP baseado em Promises, configurado de forma avançada com interceptors.
+*   **[Sonner](https://sonner.emilkowal.ski/)**: Sistema moderno e polido de notificações (Toasts).
+*   **[Lucide React](https://lucide.dev/)**: Biblioteca de ícones belos e consistentes.
+*   **[JWT-Decode](https://github.com/auth0/jwt-decode)**: Decodificação de tokens JWT no frontend para controle de sessão e permissões.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Características e Boas Práticas Implementadas
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 1. Arquitetura e Organização (Separation of Concerns)
+A estrutura de pastas em `src/` está altamente organizada e semântica:
+*   `/components`: Componentes reutilizáveis (UI) da aplicação (ex: `ProductCard`, `Pagination`).
+*   `/contexts`: Gerenciamento de estado global com a Context API (ex: `AuthContext`).
+*   `/hooks`: Hooks customizados isolando lógica de negócio (ex: `usePageTitle`).
+*   `/pages`: Componentes em nível de página, agrupando as diferentes visões e dividindo a área pública da área restrita (`/admin`).
+*   `/types`: Definições globais de interfaces e tipos do TypeScript (`Product`, `Category`, `User`, `Role`), garantindo forte tipagem no fluxo de dados.
+*   `/util`: Funções utilitárias e abstrações isoladas em módulos (ex: `auth.ts`, `storage.ts`, `request.ts`).
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 2. Segurança e Controle de Acesso (RBAC)
+*   **Autenticação JWT:** Implementada de ponta a ponta.
+*   **Interceptors do Axios:** Utilização inteligente de `interceptors.request` em `util/request.ts` para anexar automaticamente o cabeçalho `Authorization: Bearer <token>` em todas as chamadas à API, exceto em rotas específicas como o login (OAuth2).
+*   **Role-Based Access Control (RBAC):** Uso estratégico de uma abstração de `<PrivateRoute roles={['ROLE_ADMIN']} />` envolvendo diretamente a árvore do `React Router`. Essa abordagem impede proativamente que usuários não autorizados ou com o perfil incorreto (ex: `ROLE_OPERATOR` tentando acessar recursos de `ROLE_ADMIN`) acessem rotas críticas.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 3. Interface Visual Moderna (UI/UX)
+*   Visual altamente responsivo (Mobile-First approach via Tailwind).
+*   Uso de padrões modernos de design: Glassmorphism, Gradientes suaves com desfoque de fundo, Sombras dinâmicas e Efeitos de Hover interativos.
+*   As interações do usuário são imediatamente respondidas utilizando a biblioteca `Sonner` em pontos chave de sucesso e erro (como persistência em telas de formulário).
+*   Animações de fluidez na transição e renderização de componentes com a biblioteca complementar `tailwindcss-animate`.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 4. Integração de API Fluida
+*   Estados de `Loading` e desabilitação apropriada de botões durante submissões de formulário (`<Loader2 animate-spin />`).
+*   Uso constante do bloco `try/catch/finally` (ou chains `.then().catch().finally()`) para garantir uma UI consistente sempre, independente do resultado da requisição.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Instalação e Execução (Desenvolvimento)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Siga os passos abaixo para rodar o projeto localmente:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Pré-requisitos
+*   [Node.js](https://nodejs.org/) (versão compatível com as features das dependências atuais, sugerida v18+ ou v20+).
+*   Backend Java/Spring boot configurado e rodando (a URL base padrão consumida localmente fica em `http://localhost:8080`, expansível via configuração em `src/util/system.ts`).
+
+### Passos
+
+1. Clone o repositório ou navegue até a pasta do frontend:
+   ```bash
+   cd frontend
+   ```
+
+2. Instale as dependências usando NPM:
+   ```bash
+   npm install
+   ```
+
+3. Inicie o servidor de desenvolvimento do Vite:
+   ```bash
+   npm run dev
+   ```
+
+A aplicação deverá rodar por padrão em http://localhost:5173 e atualizará instantaneamente o navegador caso alguma mudança no código (HMR) seja realizada.
+
+
+## Possíveis Melhorias Futuras
+Embora a base do projeto esteja excelente, algumas opções e melhorias escaláveis para o futuro conforme a aplicação cresce:
+1.  **React Query / SWR**: Trocar fluxos simples de `useEffect` por `TanStack Query` para caching robusto, deduplicação de requests e validação proativa do lado do cliente.
+2.  **React Hook Form + Zod**: Abstrair o estado de formulários gigantes de dentro dos componentes usando `React Hook Form` combinado com a biblioteca `zod` para validação robusta de esquemas (schema validation).
+3.  **Testes Automatizados**: Inclusão do framework `Vitest` com `Testing Library` para testar os Custom Hooks, funções Utilitárias puro JavaScript/TypeScript (`storage.ts` e `auth.ts`) e Regras críticas de UI.
+

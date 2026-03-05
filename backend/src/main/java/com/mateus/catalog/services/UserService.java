@@ -73,6 +73,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    @Transactional
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new ResourceNotFoundException("Id not found: " + id);
@@ -101,10 +102,10 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = repository.findByEmail(username);
         if (user == null) {
-            logger.error("User not found: " + username);
+            logger.error("User not found: {}", username);
             throw new UsernameNotFoundException("Email not found");
         }
-        logger.info("User found: " + username);
+        logger.info("User found: {}", username);
         return user;
     }
 }
