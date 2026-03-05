@@ -56,7 +56,7 @@ public class ProductControllerIntegrationTests {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(roles = "ADMIN")
     public void updateShouldReturnProductDTOWhenIdExists() throws Exception {
         ProductDTO productDTO = Factory.createProductDTO();
         String jsonBody = objectMapper.writeValueAsString(productDTO);
@@ -74,7 +74,7 @@ public class ProductControllerIntegrationTests {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(roles = "ADMIN")
     public void updateShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
         ProductDTO productDTO = Factory.createProductDTO();
         String jsonBody = objectMapper.writeValueAsString(productDTO);
