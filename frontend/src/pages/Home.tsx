@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import heroImg from '../assets/hero-image.png';
 import { useAuth } from '../contexts/AuthContext';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export function Home() {
     const { authenticated, hasRole } = useAuth();
+    usePageTitle('Início');
     return (
         <div className="relative min-h-[calc(100vh-5rem)] flex items-center justify-center overflow-hidden">
 

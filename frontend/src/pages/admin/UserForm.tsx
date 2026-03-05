@@ -4,10 +4,15 @@ import { useEffect, useState } from 'react';
 import { requestBackend } from '../../util/request';
 import type { Role } from '../../types/role';
 import { toast } from 'sonner';
+import { usePageTitle } from '../../hooks/usePageTitle';
+
+const ROLE_OPERATOR_ID = 1;
+const ROLE_ADMIN_ID = 2;
 
 export function UserForm() {
     const { id } = useParams();
     const isEditing = id !== undefined;
+    usePageTitle(isEditing ? 'Editar Usuário — Admin' : 'Novo Usuário — Admin');
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -207,20 +212,20 @@ export function UserForm() {
                     <div className="space-y-2 lg:col-span-2">
                         <label className="text-sm font-semibold text-foreground">Papel (Roles)</label>
                         <div className="flex gap-4 flex-col sm:flex-row">
-                            <label className={`flex items-center gap-2 cursor-pointer p-4 border rounded-xl transition-colors w-full ${hasRole(1) ? 'border-primary bg-primary/5' : 'border-border/60 hover:bg-muted/50'}`}>
+                            <label className={`flex items-center gap-2 cursor-pointer p-4 border rounded-xl transition-colors w-full ${hasRole(ROLE_OPERATOR_ID) ? 'border-primary bg-primary/5' : 'border-border/60 hover:bg-muted/50'}`}>
                                 <input
                                     type="checkbox"
-                                    checked={hasRole(1)}
-                                    onChange={() => handleRoleChange(1, 'ROLE_OPERATOR')}
+                                    checked={hasRole(ROLE_OPERATOR_ID)}
+                                    onChange={() => handleRoleChange(ROLE_OPERATOR_ID, 'ROLE_OPERATOR')}
                                     className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary"
                                 />
                                 <span className="font-medium text-foreground">ROLE_OPERATOR</span>
                             </label>
-                            <label className={`flex items-center gap-2 cursor-pointer p-4 border rounded-xl transition-colors w-full ${hasRole(2) ? 'border-primary bg-primary/5' : 'border-border/60 hover:bg-muted/50'}`}>
+                            <label className={`flex items-center gap-2 cursor-pointer p-4 border rounded-xl transition-colors w-full ${hasRole(ROLE_ADMIN_ID) ? 'border-primary bg-primary/5' : 'border-border/60 hover:bg-muted/50'}`}>
                                 <input
                                     type="checkbox"
-                                    checked={hasRole(2)}
-                                    onChange={() => handleRoleChange(2, 'ROLE_ADMIN')}
+                                    checked={hasRole(ROLE_ADMIN_ID)}
+                                    onChange={() => handleRoleChange(ROLE_ADMIN_ID, 'ROLE_ADMIN')}
                                     className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary"
                                 />
                                 <span className="font-medium text-foreground">ROLE_ADMIN</span>

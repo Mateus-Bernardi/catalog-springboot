@@ -4,8 +4,10 @@ import { Eye, EyeOff, ArrowLeft, Loader2 } from 'lucide-react';
 import loginIllustration from '../assets/login-illustration.png';
 import { requestBackend } from '../util/request';
 import { toast } from 'sonner';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export function Register() {
+    usePageTitle('Cadastro');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '' });
@@ -45,8 +47,8 @@ export function Register() {
 
             toast.success('Cadastro realizado com sucesso!');
             navigate('/catalog', { replace: true });
-        } catch (error: any) {
-            console.error('Erro no cadastro', error);
+        } catch (err: unknown) {
+            console.error('Erro no cadastro', err);
             setErrorMsg('Erro ao realizar o cadastro. Verifique os dados e tente novamente.');
             toast.error('Erro ao realizar o cadastro.');
         } finally {

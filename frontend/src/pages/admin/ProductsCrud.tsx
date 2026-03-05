@@ -7,8 +7,10 @@ import type { SpringPage } from '../../types/spring';
 import { Pagination } from '../../components/Pagination';
 import { useAuth } from '../../contexts/AuthContext';
 import { toast } from 'sonner';
+import { usePageTitle } from '../../hooks/usePageTitle';
 
 export function ProductsCrud() {
+    usePageTitle('Produtos — Admin');
     const { hasRole } = useAuth();
     const [page, setPage] = useState<SpringPage<Product>>();
     const [isLoading, setIsLoading] = useState(false);
@@ -39,9 +41,7 @@ export function ProductsCrud() {
         getProducts(activePage, debouncedSearch);
     }, [getProducts, activePage, debouncedSearch]);
 
-    const handlePageChange = (newPage: number) => {
-        setActivePage(newPage);
-    };
+
 
     const handleDelete = (id: number) => {
         toast('Tem certeza que deseja excluir este produto?', {
@@ -136,7 +136,7 @@ export function ProductsCrud() {
                     <Pagination
                         pageCount={page.totalPages}
                         range={3}
-                        onChange={handlePageChange}
+                        onChange={setActivePage}
                         forcePage={activePage}
                     />
                 ) : null}

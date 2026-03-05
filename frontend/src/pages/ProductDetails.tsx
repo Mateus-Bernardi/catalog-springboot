@@ -3,12 +3,15 @@ import { ArrowLeft, CheckCircle2, Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { requestBackend } from '../util/request';
 import type { Product } from '../types/product';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export function ProductDetails() {
     const { id } = useParams();
     const [product, setProduct] = useState<Product>();
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
+
+    usePageTitle(product?.name ?? 'Produto');
 
     useEffect(() => {
         setIsLoading(true);
@@ -63,7 +66,7 @@ export function ProductDetails() {
 
                         {/* Left: Product Image */}
                         <div className="flex-1 space-y-8 flex flex-col items-center lg:items-start text-center lg:text-left">
-                            <div className="w-full aspect-square border-none rounded-[1.5rem] bg-gradient-to-tr from-muted/30 to-background flex items-center justify-center relative overlow-hidden">
+                            <div className="w-full aspect-square border-none rounded-[1.5rem] bg-gradient-to-tr from-muted/30 to-background flex items-center justify-center relative overflow-hidden">
                                 {/* Back glow */}
                                 <div className="absolute inset-20 bg-white rounded-full opacity-60 blur-3xl"></div>
                                 <img

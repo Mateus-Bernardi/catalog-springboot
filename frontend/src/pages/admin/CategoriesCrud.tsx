@@ -7,8 +7,10 @@ import type { SpringPage } from '../../types/spring';
 import { Pagination } from '../../components/Pagination';
 import { useAuth } from '../../contexts/AuthContext';
 import { toast } from 'sonner';
+import { usePageTitle } from '../../hooks/usePageTitle';
 
 export function CategoriesCrud() {
+    usePageTitle('Categorias — Admin');
     const { hasRole } = useAuth();
     const [page, setPage] = useState<SpringPage<Category>>();
     const [isLoading, setIsLoading] = useState(false);
@@ -29,9 +31,7 @@ export function CategoriesCrud() {
         getCategories(activePage);
     }, [getCategories, activePage]);
 
-    const handlePageChange = (newPage: number) => {
-        setActivePage(newPage);
-    };
+
 
     const handleDelete = (id: number) => {
         toast('Tem certeza que deseja excluir esta categoria?', {
@@ -114,7 +114,7 @@ export function CategoriesCrud() {
                     <Pagination
                         pageCount={page.totalPages}
                         range={3}
-                        onChange={handlePageChange}
+                        onChange={setActivePage}
                         forcePage={activePage}
                     />
                 ) : null}

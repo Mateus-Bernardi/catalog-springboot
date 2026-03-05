@@ -7,12 +7,13 @@ import { requestBackend } from '../util/request';
 import { CLIENT_ID, CLIENT_SECRET } from '../util/system';
 import { toast } from 'sonner';
 import { getTokenData } from '../util/auth';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export function Login() {
+    usePageTitle('Login');
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [loading, setLoading] = useState(false);
-    const [errorMsg, setErrorMsg] = useState('');
 
     const { loginContext, authenticated, hasRole } = useAuth();
     const navigate = useNavigate();
@@ -32,7 +33,6 @@ export function Login() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoading(true);
-        setErrorMsg('');
 
         try {
             const data = new URLSearchParams();
@@ -61,7 +61,6 @@ export function Login() {
             toast.success('Login bem-sucedido!');
         } catch (error) {
             console.error('Erro no login', error);
-            setErrorMsg('Usuário ou senha inválidos.');
             toast.error('Usuário ou senha inválidos.');
         } finally {
             setLoading(false);
@@ -118,11 +117,7 @@ export function Login() {
                             </div>
 
                             <form onSubmit={handleSubmit} className="space-y-6">
-                                {errorMsg && (
-                                    <div className="bg-destructive/10 text-destructive text-sm font-semibold p-4 rounded-xl border border-destructive/20 text-center animate-in fade-in zoom-in duration-300">
-                                        {errorMsg}
-                                    </div>
-                                )}
+
 
                                 <div className="space-y-5">
                                     <div className="space-y-1.5">

@@ -3,10 +3,12 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { requestBackend } from '../../util/request';
 import { toast } from 'sonner';
+import { usePageTitle } from '../../hooks/usePageTitle';
 
 export function CategoryForm() {
     const { id } = useParams();
     const isEditing = id !== undefined;
+    usePageTitle(isEditing ? 'Editar Categoria — Admin' : 'Nova Categoria — Admin');
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({ name: '' });

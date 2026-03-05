@@ -5,10 +5,12 @@ import { requestBackend } from '../../util/request';
 import type { Category } from '../../types/category';
 import type { Product } from '../../types/product';
 import { toast } from 'sonner';
+import { usePageTitle } from '../../hooks/usePageTitle';
 
 export function ProductForm() {
     const { id } = useParams();
     const isEditing = id !== undefined;
+    usePageTitle(isEditing ? 'Editar Produto — Admin' : 'Novo Produto — Admin');
     const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState(false);
@@ -157,20 +159,18 @@ export function ProductForm() {
                             />
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold text-foreground">Preço</label>
-                                <input
-                                    type="number"
-                                    step="0.01"
-                                    name="price"
-                                    value={formData.price}
-                                    onChange={handleInputChange}
-                                    required
-                                    placeholder="0.00"
-                                    className="w-full bg-background border border-border/60 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary shadow-sm hover:border-border transition-colors text-base"
-                                />
-                            </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-semibold text-foreground">Preço</label>
+                            <input
+                                type="number"
+                                step="0.01"
+                                name="price"
+                                value={formData.price}
+                                onChange={handleInputChange}
+                                required
+                                placeholder="0.00"
+                                className="w-full bg-background border border-border/60 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary shadow-sm hover:border-border transition-colors text-base"
+                            />
                         </div>
 
                         <div className="space-y-2">

@@ -1,4 +1,4 @@
-import { Search, SlidersHorizontal } from 'lucide-react';
+import { Search, SlidersHorizontal, Loader2 } from 'lucide-react';
 import { ProductCard } from '../components/ProductCard';
 import { useCallback, useEffect, useState } from 'react';
 import { requestBackend } from '../util/request';
@@ -6,8 +6,10 @@ import type { SpringPage } from '../types/spring';
 import type { Product } from '../types/product';
 import type { Category } from '../types/category';
 import { Pagination } from '../components/Pagination';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export function Catalog() {
+    usePageTitle('Catálogo');
     const [page, setPage] = useState<SpringPage<Product>>();
     const [isLoading, setIsLoading] = useState(false);
     const [activePage, setActivePage] = useState(0);
@@ -47,9 +49,7 @@ export function Catalog() {
         getProducts(activePage, debouncedSearch, sortParam, categoryId);
     }, [getProducts, activePage, debouncedSearch, sortParam, categoryId]);
 
-    const handlePageChange = (newPage: number) => {
-        setActivePage(newPage);
-    };
+
 
     return (
         <div className="container mx-auto px-4 py-8 md:py-12 relative min-h-[calc(100vh-5rem)]">
@@ -136,7 +136,9 @@ export function Catalog() {
             {/* Product Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 gap-y-10 mb-16 relative z-10">
                 {isLoading ? (
-                    <p>Loading products...</p>
+                    <div className="col-span-full flex justify-center items-center py-24">
+                        <Loader2 className="w-10 h-10 animate-spin text-primary" />
+                    </div>
                 ) : (
                     page?.content.map((product) => (
                         <ProductCard
@@ -156,7 +158,7 @@ export function Catalog() {
                     <Pagination
                         pageCount={page.totalPages}
                         range={3}
-                        onChange={handlePageChange}
+                        onChange={setActivePage}
                         forcePage={activePage}
                     />
                 ) : null}
