@@ -17,8 +17,7 @@ WORKDIR /app
 # Copia o JAR do estágio de build
 COPY --from=build /app/target/*.jar app.jar
 
-# Expõe a porta que o Spring Boot vai rodar (Render aloca a porta dinamicamente na env PORT, mas 8080 é o padrão)
 EXPOSE 8080
 
-# Comando para iniciar a aplicação
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Comando para iniciar a aplicação otimizado para os 512MB de RAM do plano gratuito do Render
+ENTRYPOINT ["java", "-Xmx300m", "-Xss512k", "-XX:CICompilerCount=2", "-Dfile.encoding=UTF-8", "-XX:+UseContainerSupport", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
