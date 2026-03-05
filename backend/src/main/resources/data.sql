@@ -128,10 +128,10 @@ INSERT INTO product_category (product_id, category_id) VALUES (25, 2);
 -- 4. USUÁRIOS E ROLES
 -- ============================================================
 INSERT INTO users (id, first_name, last_name, email, password) VALUES
-    (1, 'Alex', 'Brown', 'alex@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+    (1, 'Mario', 'Smith', 'mario@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
 
 INSERT INTO users (id, first_name, last_name, email, password) VALUES
-    (2, 'Maria', 'Green', 'maria@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+    (2, 'Luigi', 'Green', 'luigi@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
 
 INSERT INTO role (id, authority) VALUES (1, 'ROLE_OPERATOR');
 INSERT INTO role (id, authority) VALUES (2, 'ROLE_ADMIN');
