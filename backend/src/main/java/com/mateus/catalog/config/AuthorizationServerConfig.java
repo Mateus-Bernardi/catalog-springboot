@@ -85,6 +85,8 @@ public class AuthorizationServerConfig {
 		http.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
 		// @formatter:on
 
+		http.cors(Customizer.withDefaults());
+
 		return http.build();
 	}
 
