@@ -13,7 +13,7 @@
 	<groupId>com.mateus</groupId>
 	<artifactId>catalog</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>catalog</name>
+	<name>catalog_springboot</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

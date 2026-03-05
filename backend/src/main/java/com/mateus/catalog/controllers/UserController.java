@@ -1,6 +1,5 @@
 package com.mateus.catalog.controllers;
 
-
 import com.mateus.catalog.dto.UserDTO;
 import com.mateus.catalog.dto.UserInsertDTO;
 import com.mateus.catalog.dto.UserUpdateDTO;
@@ -35,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> insert( @RequestBody @Valid UserInsertDTO dto) {
+    public ResponseEntity<UserDTO> insert(@RequestBody @Valid UserInsertDTO dto) {
         UserDTO newDto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(newDto);

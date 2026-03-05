@@ -43,7 +43,8 @@ public class Role implements GrantedAuthority {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Role role = (Role) o;
         return id == role.id;
     }
