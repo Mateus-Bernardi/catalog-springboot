@@ -1,8 +1,8 @@
-# 🛍️ DS Catalog — Frontend
+# Spring Catalog — Frontend
 
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/) [![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 
-Frontend moderno do **DS Catalog**, uma aplicação completa de catálogo de produtos com área pública, autenticação JWT, painel administrativo com CRUD completo e controle de acesso baseado em roles (RBAC). Desenvolvido com foco em performance, tipagem estática e design premium.
+Frontend moderno do **Spring Catalog**, uma aplicação completa de catálogo de produtos com área pública, autenticação JWT, painel administrativo com CRUD completo e controle de acesso baseado em roles (RBAC). Desenvolvido com foco em performance, tipagem estática e design premium.
 
 ## Funcionalidades Principais
 
